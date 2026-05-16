@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Logo } from "@/components/logo";
 import { ValueCard } from "@/components/value-card";
@@ -10,6 +10,11 @@ import { Separator } from "@/components/ui/separator";
 import { Package, Wallet, ShoppingBag, Monitor, ChevronRight, Zap, CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function Home() {
+  useEffect(() => {
+    // Forçar scroll para o topo ao carregar/recarregar
+    window.scrollTo(0, 0);
+  }, []);
+
   const cards = [
     {
       title: "Estoque inteligente",
@@ -34,16 +39,20 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-white selection:bg-primary/30 selection:text-white flex flex-col items-center overflow-x-hidden font-sans">
+    <div className="min-h-screen bg-background text-white selection:bg-primary/30 selection:text-white flex flex-col items-center overflow-x-hidden font-sans relative">
       {/* Premium Background Effects */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-grid opacity-[0.1]" />
-        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-primary/10 blur-[150px]" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-primary/10 blur-[150px]" />
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-grid opacity-[0.05]" />
+        
+        {/* Simplified Glows for performance */}
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[80px] md:blur-[150px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[80px] md:blur-[150px]" />
+        
+        {/* Desktop-only diagonal accent */}
         <motion.div
-          animate={{ x: [-500, 1000], opacity: [0, 0.2, 0] }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/3 left-0 w-[800px] h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent rotate-[-15deg] blur-sm"
+          animate={{ x: [-500, 1000], opacity: [0, 0.1, 0] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/3 left-0 w-[800px] h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent rotate-[-15deg] blur-sm hidden md:block"
         />
       </div>
 
@@ -60,22 +69,12 @@ export default function Home() {
       <main className="relative z-10 w-full flex-1 flex flex-col items-center">
         {/* Hero Section */}
         <section className="w-full max-w-7xl px-6 min-h-[80vh] flex flex-col items-center justify-center text-center py-12">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="mb-8 relative"
-          >
+          <div className="mb-8 relative">
             <div className="absolute inset-0 bg-primary/20 blur-[80px] rounded-full scale-150" />
             <Logo size="lg" className="mx-auto" />
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col items-center"
-          >
+          <div className="flex flex-col items-center">
             <div className="flex justify-center mb-6 px-4">
               <Badge variant="outline" className="bg-primary/5 border-primary/30 text-primary px-3 py-1 md:px-4 md:py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] backdrop-blur-sm text-center leading-tight">
                 <Zap className="w-3 h-3 mr-2 fill-primary shrink-0" />
@@ -109,19 +108,14 @@ export default function Home() {
                 Desenvolvido para lojistas que precisam controlar o negócio além do faturamento.
               </span>
             </div>
-          </motion.div>
+          </div>
         </section>
 
         {/* Transformation Section (Pain Points) */}
-        <section className="w-full bg-white/[0.02] border-y border-white/5 py-24 md:py-40 relative overflow-hidden">
+        <section className="w-full bg-white/[0.02] border-y border-white/5 py-20 md:py-40 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] rounded-full translate-x-1/2" />
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
+            <div>
               <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-8 font-heading">
                 Sua loja vende.<br />
                 <span className="text-white/40 italic">Mas você realmente sabe:</span>
@@ -134,27 +128,18 @@ export default function Home() {
                   "quanto capital ainda não voltou?",
                   "quais aparelhos estão parados?"
                 ].map((text, i) => (
-                  <motion.li
+                  <li
                     key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
                     className="flex items-center gap-4 text-lg md:text-xl font-medium text-white/80"
                   >
                     <AlertCircle className="w-5 h-5 text-primary shrink-0" />
                     {text}
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
+            <div className="relative">
               <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full" />
               <div className="relative bg-card border border-white/10 p-8 md:p-12 rounded-[2.5rem] backdrop-blur-3xl shadow-2xl overflow-hidden group">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent" />
@@ -166,7 +151,7 @@ export default function Home() {
                   Próxima geração de ERP
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -188,11 +173,7 @@ export default function Home() {
 
         {/* Institutional Section */}
         <section className="w-full max-w-4xl px-6 py-24 md:py-32 text-center border-t border-white/5">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          <div>
             <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-10 font-heading">
               Feito para a operação real de lojas de celulares.
             </h2>
@@ -213,21 +194,16 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </section>
 
         {/* Closing Section */}
         <section className="w-full py-24 md:py-40 flex flex-col items-center text-center bg-gradient-to-b from-transparent to-primary/5">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center gap-4 mb-16"
-          >
+          <div className="flex flex-col items-center gap-4 mb-16">
             <span className="text-5xl md:text-8xl font-black tracking-tighter text-white font-heading">Mais controle.</span>
             <span className="text-5xl md:text-8xl font-black tracking-tighter text-primary font-heading">Mais clareza.</span>
             <span className="text-5xl md:text-8xl font-black tracking-tighter text-white/40 font-heading">Menos achismo.</span>
-          </motion.div>
+          </div>
 
           <div className="flex flex-col items-center gap-6">
             <Logo size="md" />

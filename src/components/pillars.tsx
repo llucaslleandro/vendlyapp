@@ -25,12 +25,8 @@ export const Pillars = () => {
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 py-16 md:py-24 px-6 max-w-7xl mx-auto">
       {items.map((item, index) => (
-        <motion.div
+        <div
           key={index}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
           className="flex flex-col items-center text-center group"
         >
           <div className="relative mb-6">
@@ -44,7 +40,7 @@ export const Pillars = () => {
           <p className="text-muted-foreground text-sm leading-relaxed max-w-[280px] group-hover:text-white/70 transition-colors duration-500">
             {item.description}
           </p>
-        </motion.div>
+        </div>
       ))}
     </div>
   );

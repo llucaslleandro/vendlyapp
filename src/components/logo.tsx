@@ -34,7 +34,7 @@ export const Logo = ({ className = "", size = "md" }: LogoProps) => {
           repeat: Infinity,
           ease: "easeInOut" 
         }}
-        className="absolute inset-[-40%] bg-primary/40 blur-[50px] rounded-full"
+        className="absolute inset-[-40%] bg-primary/40 blur-[50px] rounded-full hidden md:block"
       />
       
       <div className="relative z-10 flex items-center">
