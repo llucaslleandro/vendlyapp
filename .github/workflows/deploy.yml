@@ -3,14 +3,15 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: "pages"
+  group: "pages-${{ github.ref }}"
   cancel-in-progress: false
 
 jobs:
@@ -23,24 +24,45 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: 'npm'
           
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
         
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Typecheck
+        run: npx --no-install tsc --noEmit
         
       - name: Build with Next.js
-        run: npx next build
+        run: npm run build
+
+      - name: Verify static artifact
+        run: |
+          test -s out/index.html
+          test -s out/404.html
+          if find out -type f \( -name '.env*' -o -name '*.pem' -o -name '*.key' -o -name '*.sql' \) | grep -q .; then
+            echo 'Unexpected sensitive file in static artifact'
+            exit 1
+          fi
         
       - name: Upload artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
 
   deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
