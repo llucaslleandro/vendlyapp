@@ -1,4 +1,14 @@
-# Vendly — site comercial
+# Vendly — site comercial legado
+
+> **Migrado em 26/09/2026.** O código ativo está no monorepo
+> [vendly, em apps/marketing, branch genesis](https://github.com/llucaslleandro/vendly/tree/genesis/apps/marketing).
+> A LP de [vendlyapp.com.br](https://vendlyapp.com.br) é publicada na Cloudflare
+> pelo workflow `Marketing` desse monorepo. O workflow GitHub Pages deste
+> repositório foi desativado. O último artefato permanece temporariamente
+> disponível para clientes com DNS antigo em cache; não recebe novas publicações.
+> Este repositório conserva o histórico e não deve receber desenvolvimento novo.
+
+As instruções abaixo documentam o ambiente anterior à migração.
 
 Landing page mobile first do Vendly, em Next.js App Router, React, TypeScript e Tailwind, com exportação estática para GitHub Pages.
 
