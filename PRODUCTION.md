@@ -5,7 +5,11 @@ repositório e outra infraestrutura; esta publicação não altera API, painel o
 
 ## Deploy
 
-Push em `main` executa instalação limpa (`npm ci`), auditoria de dependências de
+Desde 25/09/2026, `genesis` é a branch de trabalho e publicação da LP.
+O environment `github-pages` autoriza essa branch. `main` não é mais a origem
+de novas publicações.
+
+Push em `genesis` executa instalação limpa (`npm ci`), auditoria de dependências de
 produção (bloqueia HIGH/CRITICAL), typecheck, build/export e validação do artefato.
 Somente depois o job com permissões `pages:write`/`id-token:write` publica `out/`.
 Pull requests executam os gates, sem publicar. Não há Node/Next server no Pages.

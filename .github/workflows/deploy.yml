@@ -2,9 +2,9 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["genesis"]
   pull_request:
-    branches: ["main"]
+    branches: ["genesis"]
   workflow_dispatch:
 
 permissions:
@@ -59,7 +59,7 @@ jobs:
           path: ./out
 
   deploy:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/genesis'
     permissions:
       pages: write
       id-token: write

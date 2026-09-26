@@ -1,243 +1,63 @@
-"use client";
+import Image from "next/image";
+import { ArrowDown, ArrowDownUp, ArrowRight, BadgeCheck, BarChart3, Check, ChevronDown, CircleDollarSign, CreditCard, Fingerprint, Headphones, Layers3, Lightbulb, MessageCircle, Package, ScanLine, ShoppingBag, Smartphone, Sparkles, Store, TrendingUp, Users, Wallet } from "lucide-react";
+import { Brand, ContactLink, ProductFrame, SectionHeading, WhatsAppNote } from "@/features/marketing/primitives";
+import { MarketingEvents, MobileMenu, ProductDemo } from "@/features/marketing/interactions";
+import { questions, site } from "@/features/marketing/content";
 
-import React, { useEffect } from "react";
-import { motion } from "framer-motion";
-import { Logo } from "@/components/logo";
-import { ValueCard } from "@/components/value-card";
-import { Pillars } from "@/components/pillars";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Package, Wallet, ShoppingBag, Monitor, ChevronRight, Zap, CheckCircle2, AlertCircle } from "lucide-react";
+const schema = { "@context": "https://schema.org", "@graph": [
+  { "@type": "Organization", "@id": `${site.url}/#organization`, name: "Vendly", url: site.url, logo: `${site.url}/brand/logo.webp` },
+  { "@type": "SoftwareApplication", name: "Vendly", url: site.url, applicationCategory: "BusinessApplication", operatingSystem: "Web", inLanguage: "pt-BR", description: "Sistema para lojas independentes de celulares novos, seminovos e acessórios. Estoque, vendas, trocas, financeiro e vitrine conectados.", publisher: { "@id": `${site.url}/#organization` } },
+] };
 
 export default function Home() {
-  useEffect(() => {
-    // Forçar scroll para o topo ao carregar/recarregar
-    window.scrollTo(0, 0);
-  }, []);
+  return <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }} />
+    <MarketingEvents />
+    <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header className="site-header"><div className="container header-inner"><a href="#inicio" aria-label="Vendly, início"><Brand /></a><nav className="desktop-navigation" aria-label="Navegação principal"><a href="#plataforma">A plataforma</a><a href="#vitrine">Vitrine digital</a><a href="#planos">Como começar</a><a href="#duvidas">Dúvidas</a></nav><div className="header-actions"><a className="login-link" href={site.login}>Entrar <ArrowRight size={15} aria-hidden="true" /></a><ContactLink className="header-cta" location="header">Conhecer o Vendly</ContactLink><MobileMenu /></div></div></header>
+    <main id="conteudo">
+      <section className="hero section-wash" id="inicio"><div className="container hero-grid"><div className="hero-copy"><span className="eyebrow"><span className="status-dot" /> Sistema para lojas de celulares</span><h1>Toda a estrutura que sua loja precisa para <em>vender mais.</em></h1><p>Estoque, vendas, trocas, financeiro e vitrine no mesmo sistema. Feito para quem vende celulares novos e seminovos — e quer saber quanto realmente ganha.</p><div className="actions"><ContactLink location="hero" /><a href="#vitrine" className="button button-secondary">Ver a vitrine <ArrowDown size={17} aria-hidden="true" /></a></div><WhatsAppNote /><ul className="hero-benefits"><li><BarChart3 /> Clareza sobre o lucro</li><li><Store /> Vitrine conectada</li><li><ArrowDownUp /> Venda com troca</li></ul></div><div className="hero-product"><div className="product-orbit" /><span className="product-annotation">Por dentro, controle.<br />Por fora, sua loja pronta para vender.</span><div className="hero-desktop"><ProductFrame priority /></div><div className="phone-frame"><span className="phone-notch" /><Image src="/product/storefront-mobile.webp" width={390} height={844} alt="Vitrine Vendly no celular, com dados de demonstração." sizes="(max-width: 800px) 29vw, 195px" /></div><div className="floating-proof"><span className="icon-tile"><Check /></span><span><strong>A operação se conecta.</strong><small>Do estoque à vitrine.</small></span></div><p className="hero-caption">Produto real · dados de demonstração</p></div></div></section>
 
-  const cards = [
-    {
-      title: "Estoque inteligente",
-      description: "Controle aparelhos, variações, custos, margem e disponibilidade em um só lugar.",
-      icon: Package,
-    },
-    {
-      title: "Fluxo de caixa",
-      description: "Visualize entradas, saídas, pendências e movimentações financeiras sem confusão.",
-      icon: Wallet,
-    },
-    {
-      title: "Vendas e negociações",
-      description: "Gerencie vendas, trocas, parcelamentos, margens e negociações reais da loja.",
-      icon: ShoppingBag,
-    },
-    {
-      title: "Vitrine integrada",
-      description: "Mostre seus produtos online e envie clientes direto para o WhatsApp.",
-      icon: Monitor,
-    },
-  ];
+      <section className="section audience" id="para-quem"><div className="container"><SectionHeading eyebrow="Feito para o seu mercado" title={<>Para quem vive de <em>vender celular.</em></>}>Sua loja tem uma rotina própria. Seu sistema também precisa ter.</SectionHeading><div className="audience-grid">{[
+        { Icon: Smartphone, title: "Novos", text: "Modelo, variação, IMEI e preço. Cada aparelho no seu lugar." },
+        { Icon: ArrowDownUp, title: "Seminovos", text: "Condição, custo e histórico por unidade. Sem tratar tudo como igual." },
+        { Icon: Headphones, title: "Acessórios", text: "Capas, películas e carregadores, com controle por quantidade." },
+        { Icon: Store, title: "Sua loja, de verdade", text: "Balcão, negociação e vitrine. Tudo faz parte da mesma operação." },
+      ].map(({ Icon, title, text }) => <article key={title}><span className="icon-tile"><Icon /></span><h3>{title}</h3><p>{text}</p></article>)}</div><div className="trust-line"><span><BadgeCheck /> Feito para lojas independentes</span><span><Smartphone /> No celular e no computador</span><span><Layers3 /> Operação conectada</span></div></div></section>
 
-  return (
-    <div className="min-h-screen bg-background text-white selection:bg-primary/30 selection:text-white flex flex-col items-center overflow-x-hidden font-sans relative">
-      {/* Premium Background Effects */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-grid opacity-[0.05]" />
-        
-        {/* Simplified Glows for performance */}
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[80px] md:blur-[150px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[80px] md:blur-[150px]" />
-        
-        {/* Desktop-only diagonal accent */}
-        <motion.div
-          animate={{ x: [-500, 1000], opacity: [0, 0.1, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/3 left-0 w-[800px] h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent rotate-[-15deg] blur-sm hidden md:block"
-        />
-      </div>
+      <section className="section section-soft" id="clareza"><div className="container"><SectionHeading centered eyebrow="O problema não é só vender" title={<>Sua loja vende.<br />Mas você sabe <em>onde está o dinheiro?</em></>}>Entre uma venda, uma troca e um aparelho parado, nem sempre fica claro o que realmente sobrou.</SectionHeading><div className="pain-grid">{[
+        { Icon: CircleDollarSign, title: "Você sabe quanto vendeu.", accent: "Mas sabe quanto ganhou?", text: "Faturamento, lucro e dinheiro no caixa são coisas diferentes." },
+        { Icon: Package, title: "Aparelho parado vira", accent: "dinheiro parado.", text: "O estoque tem valor. E também precisa de giro." },
+        { Icon: ArrowDownUp, title: "Troca, fiado e parcelamento.", accent: "Cada valor tem seu caminho.", text: "O que entrou hoje não é o mesmo que ainda vai entrar." },
+        { Icon: MessageCircle, title: "Seu cliente quer entender.", accent: "Antes de perguntar tudo.", text: "Modelo, condição e preço precisam estar claros na vitrine." },
+      ].map(({ Icon, title, accent, text }) => <article key={title}><span className="icon-tile"><Icon /></span><div><h3>{title}<br /><em>{accent}</em></h3><p>{text}</p></div></article>)}</div><p className="section-signoff"><Sparkles size={19} /> O Vendly foi feito para organizar exatamente essa rotina.</p></div></section>
 
-      {/* Header */}
-      <header className="relative z-10 w-full max-w-7xl px-6 py-8 flex items-center justify-between">
-        <Logo size="sm" />
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-          <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-white/60">Em desenvolvimento</span>
-        </div>
-      </header>
+      <section className="section" id="resultados"><div className="container"><SectionHeading centered eyebrow="Menos improviso. Mais direção." title={<>Mais controle por dentro.<br /><em>Mais clareza para crescer.</em></>} /><div className="outcomes-grid">{[
+        { Icon: Wallet, n: "01", title: "Saiba quanto ganha", text: "Enxergue vendas, custos e despesas para entender o resultado da sua loja." },
+        { Icon: TrendingUp, n: "02", title: "Faça o estoque girar", text: "Veja o dinheiro em produtos e identifique aparelhos que merecem sua atenção." },
+        { Icon: ShoppingBag, n: "03", title: "Venda com mais clareza", text: "Apresente melhor os aparelhos e as condições, do primeiro contato à negociação." },
+      ].map(({ Icon, n, title, text }) => <article key={n}><div className="outcome-top"><span>{n}</span><Icon /></div><h3>{title}</h3><p>{text}</p></article>)}</div></div></section>
 
-      {/* Main Content */}
-      <main className="relative z-10 w-full flex-1 flex flex-col items-center">
-        {/* Hero Section */}
-        <section className="w-full max-w-7xl px-6 min-h-[80vh] flex flex-col items-center justify-center text-center py-12">
-          <div className="mb-8 relative">
-            <div className="absolute inset-0 bg-primary/20 blur-[80px] rounded-full scale-150" />
-            <Logo size="lg" className="mx-auto" />
-          </div>
+      <section className="section platform-section" id="plataforma"><div className="container"><SectionHeading centered eyebrow="A ideia do Vendly" title={<>A estrutura por trás<br /><em>de uma loja bem resolvida.</em></>}>O Vendly é um sistema para lojas de celulares novos, seminovos e acessórios. O que acontece em uma etapa faz sentido na próxima.</SectionHeading><div className="connected-flow">{[{ Icon: Package, title: "Organize", text: "Estoque e custos" }, { Icon: ArrowDownUp, title: "Negocie", text: "Vendas e trocas" }, { Icon: Users, title: "Acompanhe", text: "Clientes e recebimentos" }, { Icon: Store, title: "Apresente", text: "Vitrine e condições" }].map(({ Icon, title, text }, i) => <div key={title}><span className="flow-number">0{i + 1}</span><span className="icon-tile"><Icon /></span><h3>{title}</h3><p>{text}</p>{i < 3 && <ArrowRight className="flow-arrow" aria-hidden="true" />}</div>)}</div></div></section>
 
-          <div className="flex flex-col items-center">
-            <div className="flex justify-center mb-6 px-4">
-              <Badge variant="outline" className="bg-primary/5 border-primary/30 text-primary px-3 py-1 md:px-4 md:py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] backdrop-blur-sm text-center leading-tight">
-                <Zap className="w-3 h-3 mr-2 fill-primary shrink-0" />
-                <span>Sistema operacional para lojas de celulares</span>
-              </Badge>
-            </div>
+      <section className="section storefront-section section-wash" id="vitrine"><div className="container"><SectionHeading centered eyebrow="Seu diferencial também está do lado de fora" title={<>Uma vitrine que não é só bonita.<br /><em>Ela ajuda a vender.</em></>}>Seu cliente conhece os aparelhos, compara opções e vê as condições. A conversa com sua loja começa com mais contexto.</SectionHeading><div className="showcase-grid"><div className="showcase-features"><article><span className="icon-tile"><Smartphone /></span><h3>Comparador de aparelhos</h3><p>Modelos lado a lado para entender as diferenças antes de escolher.</p></article><article><span className="icon-tile"><Sparkles /></span><h3>Resumo inteligente</h3><p>Características traduzidas em uma leitura mais clara para o cliente.</p></article></div><div className="storefront-display"><ProductFrame type="storefront" /><p className="demo-caption">Sua loja, sua identidade. Tela com dados de demonstração.</p></div><div className="showcase-features"><article><span className="icon-tile"><CreditCard /></span><h3>Condições mais claras</h3><p>Simulação à vista, parcelada e com entrada, conforme a configuração da loja.</p></article><article><span className="icon-tile"><ShoppingBag /></span><h3>Acessórios na conversa</h3><p>Aparelhos e itens compatíveis ajudam a compor a compra no mesmo lugar.</p></article></div></div><div className="price-objection"><span className="icon-tile"><ScanLine /></span><div><h3>“Mas meus preços mudam toda hora.”</h3><p>Você ajusta o preço no produto e controla o que publica. A vitrine usa as informações publicadas da loja. A decisão de preço continua com você.</p></div></div></div></section>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-6 leading-[1.05] text-white font-heading max-w-4xl mx-auto px-4">
-              O controle da sua loja em uma
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-[oklch(0.9_0.1_280)] to-primary animate-gradient"> nova velocidade.</span>
-            </h1>
+      <section className="section demo-section" id="demonstracao"><div className="container"><SectionHeading centered eyebrow="Veja por dentro" title={<>O produto mostra.<br /><em>Você tira suas conclusões.</em></>}>Conheça duas partes da mesma operação: o controle da loja e a experiência que seu cliente encontra.</SectionHeading><ProductDemo /></div></section>
 
-            <p className="text-muted-foreground text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-medium px-4">
-              Pare de operar no escuro. A Vendly conecta vendas, estoque, caixa e operação em uma experiência moderna feita para lojas de celulares.
-            </p>
+      <section className="section section-soft" id="trocas"><div className="container split-section"><div><SectionHeading eyebrow="Feito para o balcão" title={<>A venda tem troca?<br /><em>O fluxo acompanha.</em></>}>Novo, usado, upgrade ou downgrade. Registre a negociação sem perder o caminho do aparelho ou do dinheiro.</SectionHeading><ul className="check-list"><li><Check /> Aparelho recebido registrado no estoque</li><li><Check /> Custo e condição da unidade identificados</li><li><Check /> Diferença a receber ou devolver na negociação</li><li><Check /> Histórico da venda para consultar depois</li></ul><a className="text-link" href={site.contact} target="_blank" rel="noopener noreferrer">Quero entender a venda com troca <ArrowRight size={17} /></a></div><div className="trade-visual"><div className="visual-label"><ArrowDownUp size={18} /> Uma negociação. Tudo registrado.</div><div className="trade-devices"><div><span className="device-outline"><Smartphone /></span><small>APARELHO VENDIDO</small><strong>Sai do estoque</strong></div><span className="swap-icon"><ArrowDownUp /></span><div><span className="device-outline device-light"><Smartphone /></span><small>APARELHO RECEBIDO</small><strong>Entra no estoque</strong></div></div><div className="trade-result"><Check /><p><strong>A troca é um bem recebido.</strong><span>A diferença em dinheiro tem seu próprio registro.</span></p></div><span className="demo-caption">Representação do fluxo de troca</span></div></div></section>
 
-            <div className="flex flex-col items-center gap-6 px-4">
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="group relative w-full sm:w-auto"
-              >
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary to-[oklch(0.6_0.2_280)] rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500" />
-                <div className="relative flex items-center justify-center gap-3 bg-background border border-white/10 px-8 py-4 rounded-2xl hover:border-primary/50 transition-all duration-300 cursor-default shadow-2xl">
-                  <span className="text-lg md:text-xl font-bold text-white tracking-tight">Lançamento em breve</span>
-                  <ChevronRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
-                </div>
-              </motion.div>
+      <section className="section" id="financeiro"><div className="container split-section finance-section"><div className="money-visual"><span className="visual-label"><Wallet size={18} /> Cada valor no lugar certo</span><div className="money-row"><span className="icon-tile"><CircleDollarSign /></span><div><small>CAIXA</small><strong>Entradas e saídas</strong></div><Check /></div><div className="money-row"><span className="icon-tile"><CreditCard /></span><div><small>RECEBÍVEIS</small><strong>O que ainda vai entrar</strong></div><Check /></div><div className="money-row"><span className="icon-tile"><Package /></span><div><small>ESTOQUE</small><strong>O que está em produtos</strong></div><Check /></div><div className="money-total"><span>Depois dos custos e despesas</span><strong>Seu resultado, com clareza.<TrendingUp /></strong></div></div><div><SectionHeading eyebrow="Financeiro de verdade" title={<>Faturamento não é lucro.<br /><em>E lucro não é caixa.</em></>}>Veja entradas, saídas, valores a receber e resultado da loja sem colocar tudo na mesma conta.</SectionHeading><p className="body-copy">Uma venda fiada gera um valor a receber. O dinheiro entra no caixa quando o cliente paga. Um aparelho em estoque representa custo investido. O Vendly mantém essas diferenças visíveis.</p><ContactLink location="financeiro">Quero essa clareza na minha loja</ContactLink></div></div></section>
 
-              <span className="text-[10px] md:text-xs font-bold text-white/40 uppercase tracking-[0.2em] md:tracking-[0.3em] text-center max-w-[280px] md:max-w-none">
-                Desenvolvido para lojistas que precisam controlar o negócio além do faturamento.
-              </span>
-            </div>
-          </div>
-        </section>
+      <section className="section strategy-section"><div className="container split-section"><div><SectionHeading eyebrow="Consultor estratégico" title={<>Além de ver os números,<br /><em>saiba onde olhar.</em></>}>O consultor reúne sinais da operação para ajudar você a decidir o que merece atenção agora.</SectionHeading><p className="body-copy">Acompanhe produtos parados, recebimentos atrasados e oportunidades de reposição. A análise usa os registros da sua loja; a decisão continua com você.</p></div><div className="strategy-visual"><span className="strategy-icon"><Lightbulb /></span><span className="eyebrow">Informação que orienta</span><h3>Qual é o próximo passo<br />da sua loja?</h3><ul><li><Package /><div><strong>Olhe para o estoque parado</strong><span>Quais aparelhos precisam de uma nova abordagem?</span></div></li><li><Wallet /><div><strong>Acompanhe o que falta receber</strong><span>Quais pendências merecem atenção?</span></div></li><li><TrendingUp /><div><strong>Observe o que está saindo</strong><span>O que faz sentido considerar na reposição?</span></div></li></ul><small>Exemplos de leitura da operação, não recomendações sobre uma loja real.</small></div></div></section>
 
-        {/* Transformation Section (Pain Points) */}
-        <section className="w-full bg-white/[0.02] border-y border-white/5 py-20 md:py-40 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] rounded-full translate-x-1/2" />
-          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center">
-            <div>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-8 font-heading">
-                Sua loja vende.<br />
-                <span className="text-white/40 italic">Mas você realmente sabe:</span>
-              </h2>
-              <ul className="space-y-6">
-                {[
-                  "quanto sobrou no caixa?",
-                  "quanto está preso em estoque?",
-                  "quais vendas deram lucro real?",
-                  "quanto capital ainda não voltou?",
-                  "quais aparelhos estão parados?"
-                ].map((text, i) => (
-                  <li
-                    key={i}
-                    className="flex items-center gap-4 text-lg md:text-xl font-medium text-white/80"
-                  >
-                    <AlertCircle className="w-5 h-5 text-primary shrink-0" />
-                    {text}
-                  </li>
-                ))}
-              </ul>
-            </div>
+      <section className="section" id="comparacao"><div className="container"><SectionHeading centered eyebrow="Seu jeito de vender. Uma estrutura melhor." title={<>Menos informação espalhada.<br /><em>Mais loja conectada.</em></>}>Você continua atendendo do seu jeito. O que muda é a organização por trás.</SectionHeading><div className="comparison-grid"><article><span className="comparison-label">Planilha + WhatsApp</span><h3>Você faz a conexão.</h3><ul><li>Estoque depende de atualização manual.</li><li>Preços e condições ficam nas conversas.</li><li>Trocas exigem controles separados.</li><li>Resultado precisa ser reunido e conferido.</li></ul></article><article className="comparison-vendly"><Brand /><h3>A operação se encontra.</h3><ul><li><Check /> Estoque ligado às vendas registradas.</li><li><Check /> Produtos e condições na vitrine.</li><li><Check /> Fluxo próprio para venda com troca.</li><li><Check /> Vendas, custos e despesas no resultado.</li></ul></article></div><p className="comparison-note">Já usa outro sistema? Recursos variam. Compare como ele lida com IMEI, seminovos, troca, recebíveis e vitrine na sua rotina.</p></div></section>
 
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full" />
-              <div className="relative bg-card border border-white/10 p-8 md:p-12 rounded-[2.5rem] backdrop-blur-3xl shadow-2xl overflow-hidden group">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent" />
-                <p className="text-2xl md:text-4xl font-bold tracking-tight leading-tight mb-6 font-heading">
-                  A Vendly transforma operação desorganizada em <span className="text-primary">clareza financeira e controle real</span> da loja.
-                </p>
-                <div className="flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-xs">
-                  <div className="w-12 h-[1px] bg-primary/30" />
-                  Próxima geração de ERP
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+      <section className="section objection-section"><div className="container split-section"><SectionHeading eyebrow="Pode perguntar" title={<>“Mas eu já tenho<br /><em>meu jeito de vender.”</em></>}>E ele importa. O Vendly organiza o que já acontece na sua loja, do cadastro ao fechamento da negociação.</SectionHeading><div className="proof-statement"><Fingerprint size={40} /><h3>Seu atendimento continua sendo seu.</h3><p>Conheça o produto, veja os fluxos e converse com a equipe sobre sua operação antes de começar.</p><a href="#demonstracao" className="text-link">Voltar à demonstração <ArrowRight size={17} /></a></div></div></section>
 
-        {/* Quick Pillars */}
-        <Pillars />
+      <section className="section section-wash" id="planos"><div className="container split-section"><div><SectionHeading eyebrow="Comece com o Vendly" title={<>Sua loja pode fazer parte<br /><em>do começo dessa história.</em></>}>Genesis é a fase inicial do Vendly, com entrada por convite para lojas que querem conhecer e usar a plataforma.</SectionHeading><p className="body-copy">Converse com a equipe para entender o acesso, os recursos disponíveis e as condições para sua loja. Sem escolher um plano no escuro.</p></div><article className="genesis-card"><div className="genesis-top"><span className="eyebrow"><Sparkles size={14} /> Fase inicial</span><Image src="/brand/symbol.webp" alt="" width={58} height={58} /></div><h3>Genesis</h3><p>O próximo passo começa com uma conversa.</p><ul className="check-list"><li><Check /> Conheça o produto e seus fluxos</li><li><Check /> Tire dúvidas sobre a sua operação</li><li><Check /> Consulte acesso e condições com a equipe</li></ul><ContactLink location="pricing">Quero participar do Genesis</ContactLink><WhatsAppNote /></article></div></section>
 
-        {/* Features Grid */}
-        <section className="w-full max-w-7xl px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-32 md:mb-48">
-          {cards.map((card, index) => (
-            <ValueCard
-              key={index}
-              title={card.title}
-              description={card.description}
-              icon={card.icon}
-              delay={0.1 + index * 0.1}
-            />
-          ))}
-        </section>
-
-        {/* Institutional Section */}
-        <section className="w-full max-w-4xl px-6 py-24 md:py-32 text-center border-t border-white/5">
-          <div>
-            <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-10 font-heading">
-              Feito para a operação real de lojas de celulares.
-            </h2>
-            <p className="text-muted-foreground text-lg md:text-xl mb-12">
-              A Vendly foi construída pensando nos problemas que lojistas enfrentam todos os dias:
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
-              {[
-                "estoque desorganizado",
-                "caixa confuso",
-                "capital parado",
-                "margem imprevisível",
-                "operação espalhada entre planilhas e WhatsApp"
-              ].map((text, i) => (
-                <div key={i} className="flex items-center gap-3 bg-white/[0.03] p-4 rounded-xl border border-white/5">
-                  <CheckCircle2 className="w-5 h-5 text-primary/60 shrink-0" />
-                  <span className="text-sm font-medium text-white/90">{text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Closing Section */}
-        <section className="w-full py-24 md:py-40 flex flex-col items-center text-center bg-gradient-to-b from-transparent to-primary/5">
-          <div className="flex flex-col items-center gap-4 mb-16">
-            <span className="text-5xl md:text-8xl font-black tracking-tighter text-white font-heading">Mais controle.</span>
-            <span className="text-5xl md:text-8xl font-black tracking-tighter text-primary font-heading">Mais clareza.</span>
-            <span className="text-5xl md:text-8xl font-black tracking-tighter text-white/40 font-heading">Menos achismo.</span>
-          </div>
-
-          <div className="flex flex-col items-center gap-6">
-            <Logo size="md" />
-            <p className="text-white/60 font-bold uppercase tracking-[0.3em] text-xs">
-              Sistema operacional para lojas de celulares.
-            </p>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="relative z-10 w-full max-w-7xl px-6 py-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
-        <p className="text-muted-foreground text-sm font-medium">
-          © 2026 Vendly. Todos os direitos reservados.
-        </p>
-
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 text-[10px] md:text-xs font-bold uppercase tracking-widest text-white/40">
-          <span className="hover:text-primary cursor-pointer transition-colors">Sistema operacional</span>
-          <span className="hover:text-primary cursor-pointer transition-colors">Alta performance</span>
-        </div>
-      </footer>
-
-      {/* CSS Animation for Gradient Text */}
-      <style jsx global>{`
-        @keyframes gradient {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        .animate-gradient {
-          background-size: 200% auto;
-          animation: gradient 4s linear infinite;
-        }
-      `}</style>
-    </div>
-  );
+      <section className="section faq-section" id="duvidas"><div className="container"><SectionHeading centered eyebrow="Perguntas frequentes" title={<>Ainda com dúvida?<br /><em>Vamos deixar mais simples.</em></>} /><div className="faq-list">{questions.map(q => <details key={q.id} data-faq={q.id}><summary>{q.question}<ChevronDown size={20} aria-hidden="true" /></summary><p>{q.answer}</p></details>)}</div><div className="final-cta"><span className="final-symbol"><Image src="/brand/symbol.webp" alt="" width={52} height={52} /></span><h2>Pronto para ver sua loja<br /><em>funcionando assim?</em></h2><p>Mais clareza na operação. Mais estrutura para vender.</p><ContactLink location="final">Vamos conversar sobre sua loja</ContactLink><WhatsAppNote /></div></div></section>
+    </main>
+    <footer className="site-footer"><div className="container"><div className="footer-top"><a href="#inicio" aria-label="Vendly, voltar ao início"><Brand /></a><p>A estrutura por trás de quem vende celular.</p><a href={site.contact} target="_blank" rel="noopener noreferrer"><MessageCircle size={17} /> Fale com o Vendly</a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Vendly.</span><span>Feito para a rotina real da sua loja.</span><a href={site.login}>Entrar no painel <ArrowRight size={14} /></a></div></div></footer>
+  </>;
 }
